@@ -1,0 +1,861 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Quiz de 45 preguntas sobre lesiones quísticas y tumorales bucomaxilofaciales (capítulos 39–45).">
+<title>Quiz de quistes y tumores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400..700&display=swap">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<style>
+/* Una columna centrada y una pregunta por pantalla: tinta negra sobre papel blanco,
+   resaltador amarillo para los aciertos y resaltador rosado para los errores. */
+:root{
+  --paper:#ffffff;
+  --card:#ffffff;
+  --ink:#141414;
+  --muted:#5a5a5a;
+  --track:#ebebeb;
+  --yellow:#ffd60a;
+  --yellow-soft:#fff6c7;
+  --pink:#ff6fa8;
+  --pink-soft:#ffe4ef;
+  --on-hl:#141414;
+  --hover:#fffbe0;
+  --display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --body:"Figtree", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0d0d0e; --card:#161617; --ink:#f3f3ef; --muted:#b3b3ad; --track:#2c2c2e;
+    --yellow:#ffd60a; --yellow-soft:#37310d; --pink:#ff7fb4; --pink-soft:#3b1828;
+    --on-hl:#141414; --hover:#24220f;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0d0d0e; --card:#161617; --ink:#f3f3ef; --muted:#b3b3ad; --track:#2c2c2e;
+  --yellow:#ffd60a; --yellow-soft:#37310d; --pink:#ff7fb4; --pink-soft:#3b1828;
+  --on-hl:#141414; --hover:#24220f;
+  color-scheme:dark;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:44rem;margin-inline:auto;padding-inline:16px;padding-block:20px 56px}
+h1,h2,h3{font-family:var(--display);line-height:1.12;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+strong{font-weight:700}
+.kicker{font-size:.76rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hl{padding:0 .18em;border-radius:.28em;color:var(--on-hl);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-y{background:var(--yellow)}
+.hl-p{background:var(--pink)}
+:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+[tabindex="-1"]:focus{outline:none}
+
+/* ---------- intro ---------- */
+.hero{display:grid;gap:14px;padding-block:18px 8px}
+.hero h1{font-size:clamp(2.2rem,1.5rem + 3vw,3.4rem);font-weight:800}
+.lede{font-size:1.08rem;color:var(--muted);max-width:36rem}
+.block{display:grid;gap:12px;margin-top:30px}
+.h2{font-size:1.25rem;font-weight:800}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:12px;counter-reset:s}
+.steps li{display:grid;grid-template-columns:2rem minmax(0,1fr);gap:12px;align-items:start}
+.steps li::before{counter-increment:s;content:counter(s);width:2rem;height:2rem;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+.chap-list{border-top:2px solid var(--ink)}
+.chap{display:grid;grid-template-columns:2.8rem minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--track)}
+.chap .n{font-family:var(--display);font-weight:800;font-size:1.25rem;font-variant-numeric:tabular-nums}
+.chap .c{color:var(--muted);font-size:.92rem;font-variant-numeric:tabular-nums}
+.resume{display:grid;gap:10px;padding:14px 16px;border-radius:14px;background:var(--yellow-soft)}
+
+/* ---------- barra superior y progreso ---------- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.score{display:flex;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:999px;border:2px solid var(--ink);font-weight:800;font-variant-numeric:tabular-nums;font-size:.92rem;color:var(--on-hl)}
+.pill-ok{background:var(--yellow)}
+.pill-bad{background:var(--pink)}
+.linkbtn{background:none;border:0;padding:4px 2px;font-size:.85rem;font-weight:700;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.linkbtn.armed{color:var(--ink);text-decoration-color:var(--pink);text-decoration-thickness:3px}
+.progress{margin-top:14px}
+.progress-row{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.segs{display:flex;gap:2px;margin-top:8px}
+.segs span{flex:1 1 0;min-width:0;height:8px;border-radius:2px;background:var(--track)}
+.segs .ok{background:var(--yellow)}
+.segs .bad{background:var(--pink)}
+.segs .now{background:var(--ink)}
+
+/* ---------- tarjeta de pregunta ---------- */
+.card{margin-top:18px;background:var(--card);border:2px solid var(--ink);border-radius:18px;padding:20px;display:grid;gap:18px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--track);color:var(--ink)}
+.chip-type{background:transparent;border:1.5px solid var(--muted);color:var(--muted)}
+.statement{font-family:var(--body);font-size:clamp(1.15rem,1.02rem + .6vw,1.4rem);font-weight:600;line-height:1.42;letter-spacing:0}
+.hint{font-size:.9rem;color:var(--muted)}
+.keyhint{display:none}
+@media (hover:hover){.keyhint{display:block}}
+
+.tf{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{min-height:66px;border:2px solid var(--ink);border-radius:14px;background:var(--card);color:var(--ink);font-weight:800;font-size:1.12rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 14px;flex-wrap:wrap;transition:background-color .15s ease,transform .1s ease}
+.opt:hover:not(:disabled){background:var(--hover)}
+.opt:active:not(:disabled){transform:translateY(1px)}
+.opt:disabled{cursor:default}
+.opt.is-right{background:var(--yellow);color:var(--on-hl)}
+.opt.is-wrong{background:var(--pink);color:var(--on-hl)}
+.opt.is-dim{opacity:.5}
+.tag{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:999px;border:1.5px solid var(--on-hl)}
+
+.olist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ord{width:100%;display:flex;align-items:center;gap:12px;text-align:left;border:2px solid var(--ink);border-radius:14px;background:var(--card);color:var(--ink);padding:11px 14px;cursor:pointer;font-weight:600;font-size:1rem;line-height:1.35;transition:background-color .15s ease}
+.ord:hover:not(:disabled){background:var(--hover)}
+.ord:disabled{cursor:default}
+.ord .txt{min-width:0}
+.badge{flex:none;width:32px;height:32px;border-radius:50%;border:2px dashed var(--muted);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-variant-numeric:tabular-nums}
+.ord.picked .badge{border:2px solid var(--ink);background:var(--ink);color:var(--paper)}
+.ord.ok .badge{background:var(--yellow);border-color:var(--ink);color:var(--on-hl)}
+.ord.bad .badge{background:var(--pink);border-color:var(--ink);color:var(--on-hl)}
+
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;align-items:center}
+.actions.start{justify-content:flex-start}
+.btn{border:2px solid var(--ink);border-radius:12px;padding:12px 20px;font-weight:800;font-size:1rem;cursor:pointer;background:transparent;color:var(--ink);transition:transform .1s ease}
+.btn:active:not(:disabled){transform:translateY(1px)}
+.btn-primary{background:var(--yellow);color:var(--on-hl)}
+.btn:disabled{background:var(--track);border-color:var(--track);color:var(--muted);cursor:not-allowed}
+.btn-big{font-size:1.1rem;padding:14px 28px}
+
+.result{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mark{font-family:var(--display);font-weight:800;font-size:1.4rem}
+.pop{display:inline-block;animation:pop .28s ease-out}
+@keyframes pop{from{transform:scale(.9)}to{transform:scale(1)}}
+.fb{border-radius:14px;padding:16px 18px;background:var(--pink-soft);border-left:6px solid var(--pink);display:grid;gap:10px}
+.fb h3{font-size:1.25rem;font-weight:800}
+.fb ol{margin:0;padding-left:1.5em;display:grid;gap:4px;font-weight:600}
+
+/* ---------- resultado final ---------- */
+.final-head{display:grid;gap:10px;padding-block:14px 4px}
+.final-head h1{font-size:clamp(2rem,1.4rem + 2.6vw,3rem);font-weight:800;font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:22px}
+.stat{border:2px solid var(--ink);border-radius:16px;padding:14px;display:grid;gap:6px;min-width:0}
+.stat .v{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,1.3rem + 2.2vw,2.6rem);line-height:1;font-variant-numeric:tabular-nums}
+.stat .l{font-size:.78rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stat-ok{background:var(--yellow);color:var(--on-hl)}
+.stat-bad{background:var(--pink);color:var(--on-hl)}
+.stat-ok .l,.stat-bad .l{color:var(--on-hl)}
+.bars{display:grid;gap:14px}
+.bar-head{display:flex;justify-content:space-between;gap:10px;font-weight:700;font-size:.95rem}
+.bar-head .f{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--track);border:1.5px solid var(--ink);margin-top:6px}
+.bar .ok{background:var(--yellow)}
+.bar .bad{background:var(--pink)}
+.reinf{display:grid;gap:14px}
+.reinf-block{display:grid;gap:8px;padding:14px 16px;border-radius:14px;background:var(--pink-soft);border-left:6px solid var(--pink)}
+.reinf-block h3{font-size:1.1rem;font-weight:800}
+.reinf-block .sub{font-size:.9rem;color:var(--muted)}
+.reinf-block ul{margin:0;padding-left:1.2em;display:grid;gap:6px}
+.okbox{padding:14px 16px;border-radius:14px;background:var(--yellow-soft);border-left:6px solid var(--yellow)}
+.end-actions{margin-top:30px}
+
+@media (max-width:420px){
+  .card{padding:16px}
+  .opt{font-size:1.02rem}
+  .stat{padding:12px 10px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script>
+(() => {
+"use strict";
+
+const KEY = "quiz-quistes-tumores-v1";
+
+const CH = {
+  c39: { n: "39", name: "Conceptos generales", pages: "págs. 2–7" },
+  c40: { n: "40", name: "Quistes inflamatorios", pages: "págs. 8–15" },
+  c41: { n: "41", name: "Quistes del desarrollo y otros quistes", pages: "págs. 16–23" },
+  c42: { n: "42", name: "Tumores odontogénicos benignos", pages: "págs. 24–30" },
+  c43: { n: "43", name: "Tumores benignos de los maxilares", pages: "págs. 31–36" },
+  c45: { n: "45", name: "Lesiones potencialmente malignas", pages: "págs. 37–44" }
+};
+
+/* 35 de verdadero o falso + 10 de ordenamiento. En las de ordenamiento,
+   "items" está en el orden correcto; la página lo baraja al mostrarlo. */
+const Q = [
+  /* ---- Capítulo 39 ---- */
+  { id: "q01", ch: "c39", type: "tf", answer: false,
+    text: "La hipertrofia es el aumento de tamaño de un tejido por un mayor número de células.",
+    exp: "Eso es la hiperplasia. La hipertrofia es el aumento solo del tamaño celular, sin más células.",
+    tip: "Hipertrofia: células más grandes. Hiperplasia: más células." },
+  { id: "q02", ch: "c39", type: "tf", answer: true,
+    text: "La reversibilidad y la dependencia del estímulo son las características que separan a las hiperplasias de las neoplasias.",
+    exp: "La hiperplasia revierte al eliminar la causa; la neoplasia es irreversible e independiente del estímulo que la originó.",
+    tip: "Hiperplasia: reversible y dependiente. Neoplasia: irreversible e independiente." },
+  { id: "q03", ch: "c39", type: "tf", answer: true,
+    text: "En la displasia hay más mitosis que en el tejido normal, pero son mitosis normales.",
+    exp: "En la displasia aumentan las mitosis, pero son normales; las mitosis anormales son propias de la anaplasia.",
+    tip: "Displasia: más mitosis, normales. Anaplasia: algunas mitosis anormales." },
+  { id: "q04", ch: "c39", type: "tf", answer: false,
+    text: "El quiste óseo aneurismático es un quiste verdadero porque su cavidad está revestida de epitelio.",
+    exp: "Es un seudoquiste: lo revisten células gigantes o tejido óseo, no epitelio. Los seudoquistes son la cavidad de Stafne, la cavidad mandibular de glándula sublingual y los quistes óseos solitario y aneurismático.",
+    tip: "Seudoquistes (sin epitelio): Stafne, cavidad sublingual, quiste óseo solitario y aneurismático." },
+  { id: "q05", ch: "c39", type: "tf", answer: false,
+    text: "El carcinoma verrugoso de Ackerman, por ser muy bien diferenciado, se trata de elección con radioterapia.",
+    exp: "Su tratamiento es obligadamente quirúrgico: la quimioterapia es ineficaz y la irradiación está contraindicada por riesgo de exacerbar la malignidad.",
+    tip: "Carcinoma verrugoso de Ackerman: cirugía; la radioterapia está contraindicada." },
+  { id: "o01", ch: "c39", type: "order",
+    text: "Ordena la clasificación de Liubliana, del grado 1 al grado 4.",
+    items: ["Hiperplasia simple", "Hiperplasia anormal", "Hiperplasia atípica", "Carcinoma in situ"],
+    exp: "La clasificación de Liubliana gradúa los trastornos de crecimiento de la mucosa bucal desde la hiperplasia hasta el cáncer.",
+    tip: "Liubliana: simple → anormal → atípica → carcinoma in situ." },
+
+  /* ---- Capítulo 40 ---- */
+  { id: "q06", ch: "c40", type: "tf", answer: false,
+    text: "Los quistes crecen por proliferación activa de su epitelio, igual que un tumor.",
+    exp: "Crecen de forma lenta, expansiva y pasiva por aumento de la presión interior: la pared actúa como membrana semipermeable. No infiltran; por eso no se consideran neoplasias.",
+    tip: "Quiste: crecimiento pasivo por presión osmótica, expansivo y no infiltrante." },
+  { id: "q07", ch: "c40", type: "tf", answer: false,
+    text: "El quiste radicular produce con frecuencia rizólisis de los dientes vecinos.",
+    exp: "Nunca produce rizólisis de los dientes adyacentes. Puede desplazarlos (las coronas se acercan y las raíces se alejan) e incluso darles movilidad.",
+    tip: "Quiste radicular: nunca rizólisis de los vecinos." },
+  { id: "q08", ch: "c40", type: "tf", answer: true,
+    text: "Los quistes radiculares son más frecuentes en el maxilar (75–90%) que en la mandíbula (10–25%).",
+    exp: "Se explica por el mayor número de raíces, la menor caries del grupo incisivo-canino inferior y los terceros molares inferiores retenidos o extraídos.",
+    tip: "Quiste radicular: maxilar 75–90%." },
+  { id: "q09", ch: "c40", type: "tf", answer: true,
+    text: "Si al puncionar una radiotransparencia se aspira aire, lo más probable es que sea el seno maxilar y no un quiste.",
+    exp: "Líquido indica quiste (los cristales de colesterol lo confirman); aire indica seno; si no sale nada, puede ser una lesión sólida.",
+    tip: "Punción: líquido = quiste, aire = seno, nada = posible lesión sólida." },
+  { id: "q10", ch: "c40", type: "tf", answer: true,
+    text: "El granuloma es la lesión apical más frecuente: más del 70%, frente a menos del 30% de quistes.",
+    exp: "Así lo recogen los estudios comparativos. En la serie de Nair, el 52% de las lesiones apicales tenía epitelio, pero solo el 15% eran quistes.",
+    tip: "Lesión apical: granuloma más del 70%, quiste menos del 30% (Nair: 15%)." },
+  { id: "q11", ch: "c40", type: "tf", answer: false,
+    text: "Tras una quistectomía, las regiones anteriores del maxilar y la mandíbula son las que mejor osifican.",
+    exp: "Osifican mejor la rama y el cuerpo mandibular; las regiones anteriores son las menos favorables. Si a los 2 años no hay osificación eficaz, ya no se conseguirá.",
+    tip: "Osificación: mejor en rama y cuerpo mandibular, peor en zonas anteriores." },
+  { id: "q12", ch: "c40", type: "tf", answer: false,
+    text: "En el quiste paradental, el diente relacionado está necrótico.",
+    exp: "El diente es vital. Se forma por la inflamación de una bolsa periodontal, típicamente en la cara vestibular y distal de terceros molares inferiores parcialmente erupcionados con pericoronaritis.",
+    tip: "Quiste paradental: diente vital; tercer molar inferior con pericoronaritis." },
+  { id: "o02", ch: "c40", type: "order",
+    text: "Ordena cómo se forma un quiste radicular, del primer paso al último.",
+    items: [
+      "Necrosis pulpar, casi siempre por caries",
+      "Se forma un granuloma periapical",
+      "La inflamación crónica hace proliferar los restos de Malassez",
+      "Las células centrales degeneran y se forma la cavidad",
+      "El quiste crece de forma pasiva por presión osmótica"
+    ],
+    exp: "Del diente necrótico se pasa al granuloma; su inflamación crónica hace proliferar el epitelio, las células centrales se necrosan y queda la cavidad, que luego crece por ósmosis.",
+    tip: "Caries → granuloma → proliferación de Malassez → cavidad → crecimiento osmótico." },
+  { id: "o03", ch: "c40", type: "order",
+    text: "Ordena los períodos clínicos del quiste radicular.",
+    items: ["Latencia", "Exteriorización", "Apertura o fistulización"],
+    exp: "Primero es mudo y solo se ve en la radiografía; luego abomba la cortical (vidrio de reloj, signo de Dupuytren) y al final se fistuliza.",
+    tip: "Quiste radicular: latencia → exteriorización → fistulización." },
+  { id: "o04", ch: "c40", type: "order",
+    text: "Ordena los pasos de una quistectomía (Partsch II) conservando el diente causal.",
+    items: [
+      "Incisión de Partsch o de Neumann",
+      "Despegamiento del colgajo y ostectomía",
+      "Enucleación de la cápsula",
+      "Apicectomía con relleno retrógrado",
+      "Revisión de la cavidad y sutura"
+    ],
+    exp: "La cápsula se enuclea y queda unida al diente causal; después se hace la apicectomía (con endodoncia previa) y se cierra tras comprobar el coágulo.",
+    tip: "Quistectomía: incisión → ostectomía → enucleación → apicectomía → sutura." },
+
+  /* ---- Capítulo 41 ---- */
+  { id: "q13", ch: "c41", type: "tf", answer: false,
+    text: "El quiste dentígero es más frecuente en el maxilar que en la mandíbula.",
+    exp: "Aparece el 70% en la mandíbula y el 30% en el maxilar. Los dientes más implicados son el tercer molar inferior y el canino superior.",
+    tip: "Quiste dentígero: 70% mandíbula; tercer molar inferior y canino superior." },
+  { id: "q14", ch: "c41", type: "tf", answer: true,
+    text: "Un espacio pericoronario de 2,5 mm o más orienta a un quiste dentígero.",
+    exp: "El espacio pericoronario normal llega hasta 2–2,5 mm; a partir de 2,5 mm se habla de quiste folicular.",
+    tip: "Espacio pericoronario de 2,5 mm o más: quiste dentígero." },
+  { id: "q15", ch: "c41", type: "tf", answer: true,
+    text: "En el quiste periodontal lateral el diente es vital, lo que lo distingue del quiste radicular lateral.",
+    exp: "Es un quiste del desarrollo, sin causa inflamatoria; el radicular lateral, en cambio, depende de un diente necrótico.",
+    tip: "Quiste periodontal lateral: diente vital." },
+  { id: "q16", ch: "c41", type: "tf", answer: false,
+    text: "En el quiste del conducto nasopalatino, los incisivos centrales suelen estar necróticos.",
+    exp: "Los incisivos son siempre vitales y no sufren reabsorción. Confundirlo con un quiste radicular de un central es un error frecuente.",
+    tip: "Quiste nasopalatino: incisivos siempre vitales." },
+  { id: "q17", ch: "c41", type: "tf", answer: false,
+    text: "La cavidad idiopática de Stafne se sitúa por encima del conducto dentario inferior y debe enuclearse.",
+    exp: "Está por debajo del conducto, entre el ángulo y el primer molar. Es una ectopia de tejido glandular, estable, que no precisa tratamiento: solo observación.",
+    tip: "Cavidad de Stafne: por debajo del conducto dentario; observación." },
+  { id: "q18", ch: "c41", type: "tf", answer: true,
+    text: "El queratoquiste ortoqueratinizado recidiva menos que el paraqueratinizado y no se asocia al síndrome de Gorlin-Goltz.",
+    exp: "El ortoqueratinizado tiene una recurrencia rara (2,2%) y no se relaciona con el síndrome; el paraqueratinizado es el que el libro clasifica como tumor odontogénico queratoquístico.",
+    tip: "Queratoquiste ortoqueratinizado: recidiva del 2,2% y sin relación con Gorlin." },
+  { id: "o05", ch: "c41", type: "order",
+    text: "Según la teoría de Broca, ordena los períodos del folículo dentario en que se originan los quistes.",
+    items: [
+      "Período embrioplásico: quiste primordial",
+      "Período odontoplásico: quiste odontoma",
+      "Período coronario: quiste folicular"
+    ],
+    exp: "Broca situaba el origen en el folículo: el período embrioplásico es anterior a la aparición de estructuras calcificadas; le siguen el odontoplásico y el coronario.",
+    tip: "Broca: embrioplásico → odontoplásico → coronario." },
+
+  /* ---- Capítulo 42 ---- */
+  { id: "q19", ch: "c42", type: "tf", answer: false,
+    text: "El ameloblastoma sólido multiquístico se trata con enucleación y curetaje porque no infiltra el hueso.",
+    exp: "Es localmente invasivo: se reseca con márgenes de seguridad de 2 cm y se vigila a largo plazo por su recurrencia tardía.",
+    tip: "Ameloblastoma sólido: resección con márgenes de 2 cm y seguimiento largo." },
+  { id: "q20", ch: "c42", type: "tf", answer: true,
+    text: "El ameloblastoma uniquístico puede verse en la radiografía igual que un quiste dentígero.",
+    exp: "Por eso su diagnóstico puede llegar por sorpresa con la histología. La variante luminal no infiltra la pared; la mural sí, y obliga a reintervenir con márgenes.",
+    tip: "Ameloblastoma uniquístico: imagen de dentígero; luminal no infiltra, mural sí." },
+  { id: "q21", ch: "c42", type: "tf", answer: false,
+    text: "Los anillos de Liesegang son característicos del tumor odontogénico adenomatoide.",
+    exp: "Son del tumor odontogénico epitelial calcificante (Pindborg): citoplasma eosinófilo que se calcifica en anillos concéntricos, con reacción parecida al amiloide.",
+    tip: "Anillos de Liesegang: tumor de Pindborg." },
+  { id: "q22", ch: "c42", type: "tf", answer: true,
+    text: "El tumor odontogénico adenomatoide afecta sobre todo al canino superior, en mujeres menores de 20 años.",
+    exp: "Es típico del maxilar anterior, impide la erupción del canino y predomina en el sexo femenino. Se trata con enucleación y curetaje; las recidivas son excepcionales.",
+    tip: "Tumor adenomatoide: canino superior, mujer joven." },
+  { id: "q23", ch: "c42", type: "tf", answer: false,
+    text: "En el tumor odontogénico queratoquístico la rizólisis es un hallazgo frecuente.",
+    exp: "La rizólisis rara vez ocurre. Sí son frecuentes el patrón multilocular y el desplazamiento dentario.",
+    tip: "Tumor odontogénico queratoquístico: rizólisis rara." },
+  { id: "q24", ch: "c42", type: "tf", answer: true,
+    text: "El cementoblastoma se trata extirpando la lesión junto con el diente afectado.",
+    exp: "Es la conducta indicada; si la exéresis es incompleta, las recidivas son frecuentes. Asienta sobre todo en el primer molar inferior.",
+    tip: "Cementoblastoma: extirpar junto con el diente." },
+  { id: "o06", ch: "c42", type: "order",
+    text: "Ordena estos tumores odontogénicos del más frecuente al menos frecuente, según el libro.",
+    items: ["Odontoma", "Ameloblastoma", "Mixoma odontogénico"],
+    exp: "Para la mayoría de los autores el odontoma es el más frecuente; el ameloblastoma es el segundo y el mixoma se ha considerado el tercero, puesto que podría cambiar con el tumor queratoquístico.",
+    tip: "Frecuencia: odontoma → ameloblastoma → mixoma." },
+  { id: "o07", ch: "c42", type: "order",
+    text: "Ordena estos tumores según la edad típica de aparición, de menor a mayor.",
+    items: ["Fibroodontoma ameloblástico", "Fibroma ameloblástico", "Cementoblastoma", "Ameloblastoma sólido multiquístico"],
+    exp: "Fibroodontoma ameloblástico: 8–12 años. Fibroma ameloblástico: hacia los 15. Cementoblastoma: hacia los 20. Ameloblastoma sólido: 4.ª–6.ª década.",
+    tip: "Edades: fibroodontoma 8–12 · fibroma ameloblástico 15 · cementoblastoma 20 · ameloblastoma 4.ª–6.ª década." },
+
+  /* ---- Capítulo 43 ---- */
+  { id: "q25", ch: "c43", type: "tf", answer: true,
+    text: "El osteoma osteoide produce un dolor intenso, de predominio nocturno, que cede con ácido acetilsalicílico.",
+    exp: "Lo causan las prostaglandinas, entre 100 y 1.000 veces más altas que en el hueso normal; la aspirina inhibe la COX. En el osteoblastoma el dolor es menor y no cede igual.",
+    tip: "Osteoma osteoide: dolor nocturno que cede con aspirina; nidus en la imagen." },
+  { id: "q26", ch: "c43", type: "tf", answer: false,
+    text: "Un osteoma endósteo asintomático debe extirparse en bloque.",
+    exp: "La actitud es expectante, por su escaso potencial de crecimiento. Si llega a deformar, se prefiere una cirugía remodeladora.",
+    tip: "Osteoma endósteo: actitud expectante." },
+  { id: "q27", ch: "c43", type: "tf", answer: true,
+    text: "El fibroma osificante se localiza exclusivamente en el maxilar, la mandíbula y los huesos craneofaciales.",
+    exp: "En otras localizaciones se trataría de displasias fibrosas. Se trata con resección en bloque, no con enucleación.",
+    tip: "Fibroma osificante: exclusivo craneofacial; resección en bloque." },
+  { id: "q28", ch: "c43", type: "tf", answer: false,
+    text: "El granuloma central de células gigantes es más frecuente en hombres y en la región posterior del maxilar.",
+    exp: "Afecta casi el doble a mujeres, en las tres primeras décadas, sobre todo en la región anterior de la mandíbula; en el maxilar no suele pasar del canino.",
+    tip: "Granuloma central de células gigantes: mujeres, mandíbula anterior." },
+  { id: "q29", ch: "c43", type: "tf", answer: true,
+    text: "El neurilemoma es un tumor encapsulado, y eso facilita su extirpación.",
+    exp: "Es solitario y encapsulado, con células de Schwann en empalizada. El neurofibroma, en cambio, no suele tener cápsula y recidiva en el 20%.",
+    tip: "Neurilemoma: encapsulado. Neurofibroma: sin cápsula, recidiva del 20%." },
+  { id: "o08", ch: "c43", type: "order",
+    text: "Ordena estas lesiones de células gigantes de menor a mayor agresividad.",
+    items: [
+      "Granuloma central de células gigantes",
+      "Lesión de células gigantes central agresiva",
+      "Tumor de células gigantes",
+      "Tumor maligno de células gigantes"
+    ],
+    exp: "La lesión agresiva es un estadio intermedio (dos o tres recidivas y crecimiento rápido); el tumor de células gigantes sería una fase más agresiva y se maligniza en el 1%, como sarcoma de alto grado.",
+    tip: "Granuloma central → lesión agresiva → tumor de células gigantes → tumor maligno (1%)." },
+
+  /* ---- Capítulo 45 ---- */
+  { id: "q30", ch: "c45", type: "tf", answer: true,
+    text: "Pindborg definió la leucoplasia como una placa blanca de 5 mm o más que no se desprende al raspado y no puede clasificarse como otra lesión.",
+    exp: "Es la definición que da el libro. La leucoplasia es la lesión cancerizable más frecuente y mejor estudiada.",
+    tip: "Leucoplasia: 5 mm o más, no se desprende y se diagnostica por exclusión." },
+  { id: "q31", ch: "c45", type: "tf", answer: false,
+    text: "La localización más frecuente de la leucoplasia es también la de mayor riesgo de malignización.",
+    exp: "Es más frecuente en la mucosa yugal, pero se maligniza más en el suelo de boca y en la lengua.",
+    tip: "Leucoplasia: más frecuente en mucosa yugal; más riesgo en suelo de boca y lengua." },
+  { id: "q32", ch: "c45", type: "tf", answer: false,
+    text: "La leucoqueratosis nicotínica del paladar de los fumadores de pipa tiene alto riesgo de malignización.",
+    exp: "No tiende a malignizar. Se incluye por su parecido con la queratosis palatina del fumador invertido, que sí tiene alto riesgo.",
+    tip: "Leucoqueratosis nicotínica: no tiende a malignizar; el fumar invertido sí es de alto riesgo." },
+  { id: "q33", ch: "c45", type: "tf", answer: false,
+    text: "La forma reticular es la variante del liquen plano oral con mayor riesgo de transformación maligna.",
+    exp: "La reticular es la más frecuente. La de mayor posibilidad de transformación maligna es la erosiva.",
+    tip: "Liquen plano: la reticular es la más frecuente; la erosiva, la de más riesgo." },
+  { id: "q34", ch: "c45", type: "tf", answer: true,
+    text: "La eritroplasia de Queyrat se considera un auténtico cáncer in situ.",
+    exp: "Es el equivalente en mucosas de la enfermedad de Bowen: un carcinoma intraepitelial con la membrana basal respetada. Exige extirpación precoz.",
+    tip: "Eritroplasia de Queyrat: cáncer in situ; extirpación precoz." },
+  { id: "q35", ch: "c45", type: "tf", answer: true,
+    text: "Una úlcera que no desaparece a los 15 días de eliminar la causa exige biopsia y exploración de los ganglios submandibulares y cervicales.",
+    exp: "Es la regla del libro. La úlcera cancerosa tiene bordes duros, evertidos y en rodete, y ganglios duros.",
+    tip: "Úlcera que persiste 15 días tras quitar la causa: biopsia y exploración ganglionar." },
+  { id: "o09", ch: "c45", type: "order",
+    text: "Ordena los pasos del manejo de una leucoplasia.",
+    items: [
+      "Eliminar irritantes locales, sobre todo el tabaco, durante 15–21 días",
+      "Si persiste, biopsia incisional o excisional",
+      "Si hay displasia, extirpar toda la lesión",
+      "Seguimiento, porque recidiva en el 9–35%"
+    ],
+    exp: "Primero se eliminan los irritantes; la biopsia decide si hay displasia, y entonces se extirpa con láser de CO₂, criocirugía o terapia fotodinámica. Los retinoides no han sido eficaces a largo plazo.",
+    tip: "Leucoplasia: irritantes 15–21 días → biopsia → extirpación si hay displasia → seguimiento." },
+  { id: "o10", ch: "c45", type: "order",
+    text: "Ordena estas localizaciones de la leucoplasia de la más frecuente a la menos frecuente (Grinspan).",
+    items: ["Mucosa yugal", "Comisuras", "Paladar", "Reborde alveolar", "Labios"],
+    exp: "En la serie de Grinspan (3.319 leucoplasias) el orden es mucosa yugal, comisuras, paladar, reborde alveolar, labios, lengua, encía y suelo de boca.",
+    tip: "Grinspan: mucosa yugal → comisuras → paladar → reborde alveolar → labios." }
+];
+
+const BY_ID = Object.fromEntries(Q.map(q => [q.id, q]));
+const ALL_IDS = Q.map(q => q.id);
+const root = document.getElementById("app");
+
+let S = fresh();
+let PENDING = null;
+let restartArmed = false;
+let armTimer = null;
+
+function fresh() {
+  return { phase: "intro", mode: "all", order: [], idx: 0, results: {}, cur: null };
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function shuffle(a) {
+  const b = a.slice();
+  for (let i = b.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [b[i], b[j]] = [b[j], b[i]];
+  }
+  return b;
+}
+
+function makeCur(id) {
+  const q = BY_ID[id];
+  const cur = { id, answered: false, choice: null, picked: [], perm: null };
+  if (q.type === "order") {
+    const ident = q.items.map((_, i) => i);
+    let perm = shuffle(ident);
+    let guard = 0;
+    while (perm.every((v, i) => v === i) && guard++ < 20) perm = shuffle(ident);
+    cur.perm = perm;
+  }
+  return cur;
+}
+
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { /* almacenamiento no disponible */ }
+}
+
+function valid(s) {
+  if (!s || typeof s !== "object" || !Array.isArray(s.order) || !s.results || typeof s.results !== "object") return false;
+  if (!s.order.every(id => BY_ID[id])) return false;
+  if (s.phase === "question") {
+    if (!s.order.length || s.idx < 0 || s.idx >= s.order.length) return false;
+    if (!s.cur || s.cur.id !== s.order[s.idx] || !Array.isArray(s.cur.picked)) return false;
+    if (BY_ID[s.cur.id].type === "order" && !Array.isArray(s.cur.perm)) return false;
+  }
+  return s.phase === "question" || s.phase === "final" || s.phase === "intro";
+}
+
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (!raw) return null;
+    const s = JSON.parse(raw);
+    return valid(s) ? s : null;
+  } catch (e) { return null; }
+}
+
+function start(ids, mode) {
+  PENDING = null;
+  S = { phase: "question", mode, order: shuffle(ids), idx: 0, results: {}, cur: null };
+  S.cur = makeCur(S.order[0]);
+  save();
+  render(true);
+}
+
+function tally() {
+  let ok = 0, bad = 0;
+  for (const id of S.order) {
+    const r = S.results[id];
+    if (!r) continue;
+    if (r.ok) ok++; else bad++;
+  }
+  return { ok, bad };
+}
+
+function wrongIds() {
+  return S.order.filter(id => S.results[id] && !S.results[id].ok);
+}
+
+/* ---------------- vistas ---------------- */
+
+function viewIntro() {
+  const counts = {};
+  Q.forEach(q => { counts[q.ch] = (counts[q.ch] || 0) + 1; });
+  const nTF = Q.filter(q => q.type === "tf").length;
+  const nOrd = Q.length - nTF;
+  const startBlock = PENDING
+    ? `<div class="resume">
+         <p>Tienes un quiz a medias: vas por la pregunta ${PENDING.idx + 1} de ${PENDING.order.length}.</p>
+         <div class="actions start">
+           <button class="btn btn-primary" data-act="resume">Continuar</button>
+           <button class="btn" data-act="start">Empezar de nuevo</button>
+         </div>
+       </div>`
+    : `<div class="actions start"><button class="btn btn-primary btn-big" data-act="start">Empezar</button></div>`;
+  return `
+    <section class="hero">
+      <p class="kicker">Cirugía bucal · Parte 9 · Capítulos 39–45</p>
+      <h1 tabindex="-1" data-focus>Quiz de <span class="hl hl-y">quistes</span> y <span class="hl hl-p">tumores</span></h1>
+      <p class="lede">${Q.length} preguntas sacadas de la guía de estudio: ${nTF} de verdadero o falso y ${nOrd} de ordenamiento, en orden aleatorio.</p>
+      ${startBlock}
+    </section>
+    <section class="block">
+      <h2 class="h2">Cómo funciona</h2>
+      <ol class="steps">
+        <li><span>En verdadero o falso, toca una opción. En ordenamiento, toca los elementos del primero al último y luego <strong>Comprobar</strong>.</span></li>
+        <li><span>Si aciertas, la respuesta queda marcada en <span class="hl hl-y">amarillo</span> y tocas <strong>Continuar</strong>.</span></li>
+        <li><span>Si fallas, queda en <span class="hl hl-p">rosado</span>, ves la respuesta correcta con su explicación y tocas <strong>Siguiente</strong>.</span></li>
+        <li><span>Al final ves el total de buenas y malas y qué temas reforzar, con las páginas de la guía.</span></li>
+      </ol>
+    </section>
+    <section class="block">
+      <h2 class="h2">Qué incluye</h2>
+      <div class="chap-list">
+        ${Object.entries(CH).map(([c, v]) => `
+          <div class="chap"><span class="n">${v.n}</span><span>${esc(v.name)}</span><span class="c">${counts[c]} preguntas</span></div>`).join("")}
+      </div>
+    </section>`;
+}
+
+function topBar() {
+  const t = tally();
+  return `
+    <header class="top">
+      <p class="kicker">${S.mode === "review" ? "Repaso de las falladas" : "Quiz · Capítulos 39–45"}</p>
+      <div class="score">
+        <span class="pill pill-ok" aria-label="${t.ok} buenas"><span aria-hidden="true">✓</span> ${t.ok}</span>
+        <span class="pill pill-bad" aria-label="${t.bad} malas"><span aria-hidden="true">✗</span> ${t.bad}</span>
+        <button class="linkbtn${restartArmed ? " armed" : ""}" data-act="restart">${restartArmed ? "¿Seguro? Toca otra vez" : "Reiniciar"}</button>
+      </div>
+    </header>`;
+}
+
+function progress() {
+  const total = S.order.length;
+  const segs = S.order.map((id, i) => {
+    const r = S.results[id];
+    const cls = r ? (r.ok ? "ok" : "bad") : (i === S.idx ? "now" : "");
+    return `<span class="${cls}"></span>`;
+  }).join("");
+  return `
+    <div class="progress">
+      <div class="progress-row"><span>Pregunta ${S.idx + 1} de ${total}</span><span>${Object.keys(S.results).length} respondidas</span></div>
+      <div class="segs" aria-hidden="true">${segs}</div>
+    </div>`;
+}
+
+function tfBlock(q, cur) {
+  const opts = [[true, "Verdadero"], [false, "Falso"]];
+  const buttons = opts.map(([val, label]) => {
+    let cls = "opt";
+    let icon = "";
+    let tag = "";
+    if (cur.answered) {
+      if (val === q.answer) {
+        cls += " is-right"; icon = "✓";
+        if (cur.choice !== q.answer) tag = `<span class="tag">Correcta</span>`;
+      } else if (val === cur.choice) {
+        cls += " is-wrong"; icon = "✗";
+      } else {
+        cls += " is-dim";
+      }
+    }
+    return `<button class="${cls}" data-act="tf" data-val="${val}" ${cur.answered ? "disabled" : ""} aria-pressed="${cur.choice === val}">
+      ${icon ? `<span aria-hidden="true">${icon}</span>` : ""}<span>${label}</span>${tag}</button>`;
+  }).join("");
+  return `<div class="tf" role="group" aria-label="Respuesta">${buttons}</div>`;
+}
+
+function orderBlock(q, cur) {
+  const lis = cur.perm.map(itemIdx => {
+    const pos = cur.picked.indexOf(itemIdx);
+    let cls = "ord";
+    if (pos >= 0) cls += " picked";
+    if (cur.answered) cls += pos === itemIdx ? " ok" : " bad";
+    const label = esc(q.items[itemIdx]) + (pos >= 0 ? `, posición ${pos + 1}` : "");
+    return `<li><button class="${cls}" data-act="pick" data-item="${itemIdx}" ${cur.answered ? "disabled" : ""} aria-label="${label}">
+      <span class="badge" aria-hidden="true">${pos >= 0 ? pos + 1 : ""}</span><span class="txt">${esc(q.items[itemIdx])}</span></button></li>`;
+  }).join("");
+  const help = cur.answered ? "" : `<p class="hint">Toca las opciones en el orden correcto, de la primera a la última. Para corregir, toca una opción numerada y se quitará.</p>`;
+  return `${help}<ul class="olist">${lis}</ul>`;
+}
+
+function after(q, cur) {
+  if (!cur.answered) {
+    if (q.type === "order") {
+      const full = cur.picked.length === q.items.length;
+      return `<div class="actions">
+        <button class="btn" data-act="clear" ${cur.picked.length ? "" : "disabled"}>Borrar orden</button>
+        <button class="btn btn-primary" data-act="check" ${full ? "" : "disabled"}>Comprobar</button>
+      </div>`;
+    }
+    return `<p class="hint keyhint">Atajo de teclado: V para verdadero, F para falso.</p>`;
+  }
+  const r = S.results[q.id];
+  const last = S.idx === S.order.length - 1;
+  if (r && r.ok) {
+    return `<div class="result" role="status">
+      <p class="mark"><span class="hl hl-y pop">✓ Bien</span></p>
+      <button class="btn btn-primary" data-act="next" data-primary>${last ? "Ver resultado" : "Continuar"}</button>
+    </div>`;
+  }
+  const correct = q.type === "tf"
+    ? `<p>La respuesta correcta es <strong>${q.answer ? "Verdadero" : "Falso"}</strong>.</p>`
+    : `<p><strong>El orden correcto es:</strong></p><ol>${q.items.map(it => `<li>${esc(it)}</li>`).join("")}</ol>`;
+  return `<div class="fb" role="status">
+      <h3>✗ Incorrecto</h3>
+      ${correct}
+      <p>${esc(q.exp)}</p>
+    </div>
+    <div class="actions"><button class="btn btn-primary" data-act="next" data-primary>${last ? "Ver resultado" : "Siguiente"}</button></div>`;
+}
+
+function viewQuestion() {
+  const q = BY_ID[S.cur.id];
+  const cur = S.cur;
+  const c = CH[q.ch];
+  return `
+    ${topBar()}
+    ${progress()}
+    <article class="card">
+      <div class="chips">
+        <span class="chip">Cap. ${c.n} · ${esc(c.name)}</span>
+        <span class="chip chip-type">${q.type === "tf" ? "Verdadero o falso" : "Ordenamiento"}</span>
+      </div>
+      <h2 class="statement" tabindex="-1" data-focus>${esc(q.text)}</h2>
+      ${q.type === "tf" ? tfBlock(q, cur) : orderBlock(q, cur)}
+      ${after(q, cur)}
+    </article>`;
+}
+
+function verdict(pct, bad) {
+  if (bad === 0) return "Sin fallos. Para mantenerlo, repasa la sección «Repaso transversal» de la guía (pág. 45).";
+  if (pct >= 85) return "Dominio alto. Te faltan detalles puntuales; los tienes abajo.";
+  if (pct >= 70) return "Buen nivel, con algunos temas por afianzar.";
+  if (pct >= 50) return "Base suficiente, pero conviene repasar los temas marcados antes del examen.";
+  return "Conviene volver a la guía capítulo por capítulo y repetir el quiz.";
+}
+
+function viewFinal() {
+  const t = tally();
+  const total = S.order.length;
+  const pct = total ? Math.round((t.ok / total) * 100) : 0;
+  const rows = Object.keys(CH).map(c => {
+    const ids = S.order.filter(id => BY_ID[id].ch === c);
+    const ok = ids.filter(id => S.results[id] && S.results[id].ok).length;
+    return { c, n: ids.length, ok, bad: ids.length - ok, wrong: ids.filter(id => S.results[id] && !S.results[id].ok) };
+  }).filter(r => r.n > 0);
+
+  const bars = rows.map(r => `
+    <div>
+      <div class="bar-head"><span>Cap. ${CH[r.c].n} · ${esc(CH[r.c].name)}</span><span class="f">${r.ok}/${r.n}</span></div>
+      <div class="bar" role="img" aria-label="${r.ok} buenas y ${r.bad} malas">
+        <span class="ok" style="width:${(r.ok / r.n) * 100}%"></span><span class="bad" style="width:${(r.bad / r.n) * 100}%"></span>
+      </div>
+    </div>`).join("");
+
+  const weak = rows.filter(r => r.bad > 0).sort((a, b) => b.bad - a.bad || (b.bad / b.n) - (a.bad / a.n));
+  const strong = rows.filter(r => r.bad === 0);
+  let reinforce;
+  if (!weak.length) {
+    reinforce = `<div class="okbox">No hubo fallos en ningún capítulo.</div>`;
+  } else {
+    const first = weak[0];
+    reinforce = `
+      <p>Empieza por el capítulo ${CH[first.c].n}, donde tuviste más fallos. Debajo tienes el dato correcto de cada pregunta que fallaste.</p>
+      <div class="reinf">
+        ${weak.map(r => `
+          <section class="reinf-block">
+            <h3>Cap. ${CH[r.c].n} · ${esc(CH[r.c].name)}</h3>
+            <p class="sub">${r.bad} ${r.bad === 1 ? "fallo" : "fallos"} de ${r.n} · En la guía: ${CH[r.c].pages}</p>
+            <ul>${r.wrong.map(id => `<li>${esc(BY_ID[id].tip)}</li>`).join("")}</ul>
+          </section>`).join("")}
+      </div>
+      ${strong.length ? `<div class="okbox">Sin fallos en: ${strong.map(r => `Cap. ${CH[r.c].n} (${esc(CH[r.c].name)})`).join(", ")}.</div>` : ""}`;
+  }
+
+  const nWrong = t.bad;
+  return `
+    <section class="final-head">
+      <p class="kicker">${S.mode === "review" ? "Resultado del repaso de falladas" : "Resultado del quiz"}</p>
+      <h1 tabindex="-1" data-focus>${t.ok} de ${total} correctas</h1>
+      <p class="lede">${verdict(pct, t.bad)}</p>
+    </section>
+    <div class="stats">
+      <div class="stat stat-ok"><span class="l">Buenas</span><span class="v">${t.ok}</span></div>
+      <div class="stat stat-bad"><span class="l">Malas</span><span class="v">${t.bad}</span></div>
+      <div class="stat"><span class="l">Acierto</span><span class="v">${pct}%</span></div>
+    </div>
+    <section class="block">
+      <h2 class="h2">Por capítulo</h2>
+      <div class="bars">${bars}</div>
+    </section>
+    <section class="block">
+      <h2 class="h2">Qué reforzar</h2>
+      ${reinforce}
+    </section>
+    <div class="actions start end-actions">
+      ${nWrong ? `<button class="btn btn-primary" data-act="retry-wrong">Repetir solo las falladas (${nWrong})</button>` : ""}
+      <button class="btn${nWrong ? "" : " btn-primary"}" data-act="retry-all">Repetir todo el quiz</button>
+    </div>`;
+}
+
+function render(focusTop) {
+  if (S.phase === "question") root.innerHTML = viewQuestion();
+  else if (S.phase === "final") root.innerHTML = viewFinal();
+  else root.innerHTML = viewIntro();
+  if (focusTop) {
+    window.scrollTo(0, 0);
+    const h = root.querySelector("[data-focus]");
+    if (h) h.focus({ preventScroll: true });
+  }
+}
+
+function focusPrimary() {
+  const b = root.querySelector("[data-primary]");
+  if (b) b.focus({ preventScroll: true });
+}
+
+/* ---------------- acciones ---------------- */
+
+function answerTF(val) {
+  if (S.phase !== "question" || S.cur.answered) return;
+  const q = BY_ID[S.cur.id];
+  if (q.type !== "tf") return;
+  S.cur.answered = true;
+  S.cur.choice = val;
+  S.results[q.id] = { ok: val === q.answer };
+  save();
+  render(false);
+  focusPrimary();
+}
+
+function pick(i) {
+  const c = S.cur;
+  if (!c || c.answered) return;
+  const at = c.picked.indexOf(i);
+  if (at >= 0) c.picked.splice(at, 1); else c.picked.push(i);
+  save();
+  render(false);
+  const el = root.querySelector(`[data-act="pick"][data-item="${i}"]`);
+  if (el) el.focus({ preventScroll: true });
+}
+
+function checkOrder() {
+  const c = S.cur;
+  const q = BY_ID[c.id];
+  if (c.answered || c.picked.length !== q.items.length) return;
+  c.answered = true;
+  S.results[q.id] = { ok: c.picked.every((itemIdx, pos) => itemIdx === pos) };
+  save();
+  render(false);
+  focusPrimary();
+}
+
+function next() {
+  if (S.phase !== "question" || !S.cur.answered) return;
+  S.idx++;
+  if (S.idx >= S.order.length) {
+    S.phase = "final";
+    S.cur = null;
+  } else {
+    S.cur = makeCur(S.order[S.idx]);
+  }
+  save();
+  render(true);
+}
+
+function restart() {
+  if (!restartArmed) {
+    restartArmed = true;
+    render(false);
+    const b = root.querySelector('[data-act="restart"]');
+    if (b) b.focus({ preventScroll: true });
+    clearTimeout(armTimer);
+    armTimer = setTimeout(() => { restartArmed = false; if (S.phase === "question") render(false); }, 4000);
+    return;
+  }
+  clearTimeout(armTimer);
+  restartArmed = false;
+  S = fresh();
+  PENDING = null;
+  save();
+  render(true);
+}
+
+root.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || b.disabled) return;
+  const act = b.dataset.act;
+  if (act === "start") start(ALL_IDS, "all");
+  else if (act === "resume") { if (PENDING) { S = PENDING; PENDING = null; render(true); } }
+  else if (act === "tf") answerTF(b.dataset.val === "true");
+  else if (act === "pick") pick(Number(b.dataset.item));
+  else if (act === "clear") { S.cur.picked = []; save(); render(false); }
+  else if (act === "check") checkOrder();
+  else if (act === "next") next();
+  else if (act === "restart") restart();
+  else if (act === "retry-wrong") { const ids = wrongIds(); if (ids.length) start(ids, "review"); }
+  else if (act === "retry-all") start(ALL_IDS, "all");
+});
+
+document.addEventListener("keydown", e => {
+  if (S.phase !== "question" || !S.cur || S.cur.answered || e.altKey || e.ctrlKey || e.metaKey) return;
+  if (BY_ID[S.cur.id].type !== "tf") return;
+  const k = e.key.toLowerCase();
+  if (k === "v") { e.preventDefault(); answerTF(true); }
+  else if (k === "f") { e.preventDefault(); answerTF(false); }
+});
+
+/* ---------------- arranque ---------------- */
+
+function boot(data) {
+  if (data && valid(data.state)) {
+    S = data.state;
+    PENDING = data.pending && valid(data.pending) ? data.pending : null;
+  } else {
+    const saved = load();
+    if (saved && saved.phase === "question") { PENDING = saved; S = fresh(); }
+    else if (saved && saved.phase === "final") { S = saved; }
+  }
+  render(false);
+}
+
+window.claude?.hot?.snapshot?.(() => ({ state: S, pending: PENDING }));
+window.claude?.hot?.ready ? window.claude.hot.ready(boot) : boot(window.claude?.hot?.data ?? {});
+})();
+</script>
+</body>
+</html>
